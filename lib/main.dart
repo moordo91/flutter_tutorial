@@ -23,9 +23,10 @@ class _MyAppState extends State<MyApp> {
     if (status.isGranted) {
       print('Granted');
       var contacts = await ContactsService.getContacts();
-      // var newPerson = Contact();
-      // newPerson.givenName = 'Mina';
-      // newPerson.familyName = 'Song';
+      for (int i = 0; i < contacts.length; i++) {
+        print(contacts[i].phones?[0].label);
+        print(contacts[i].phones?[0].value);
+      }
       setState(() {
         name = contacts;
       });
@@ -55,8 +56,8 @@ class _MyAppState extends State<MyApp> {
             return DialogUI(addOne: addOne);
           });
         },
+        child: Icon(Icons.add),
       ),
-      // appBar: AppBar( title: Text('앱제목'),),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         actions: [IconButton(onPressed: (){getPermission();}, icon: Icon(Icons.contacts))],
@@ -73,7 +74,7 @@ class _MyAppState extends State<MyApp> {
               padding: const EdgeInsets.all(3.0),
               child: Image.asset('assets/dog.png'),
             ),
-            title: Text(name[i].givenName ?? 'No Name'),
+            title: Text(name[i].givenName + ' ' + name[i].familyName ?? 'No Name'),
           );
         }),
       bottomNavigationBar: BottomTab(),
@@ -102,7 +103,9 @@ class BottomTab extends StatelessWidget {
 class DialogUI extends StatelessWidget {
   DialogUI({super.key, this.addOne});
   final addOne;
-  var inputData = TextEditingController();
+  var givenName = TextEditingController();
+  var familyName = TextEditingController();
+  var phoneNumber = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -112,36 +115,55 @@ class DialogUI extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Dialog', style: TextStyle(
+          Text('New Person', style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           TextField(
-            controller: inputData,
+            controller: givenName,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              labelText: '입력',
+              labelText: 'First Name',
             )
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
+          TextField(
+            controller: familyName,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Second Name',
+            )
+          ),
+          SizedBox(height: 30),
+          TextField(
+            controller: phoneNumber,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Phone Number',
+            )
+          ),
+          SizedBox(height: 30),
           Container(
             margin: const EdgeInsets.all(5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                    onPressed: (){
+                    onPressed: () async {
                       var newContact = Contact();
-                      newContact.givenName = inputData.text;
+                      newContact.givenName = givenName.text;
+                      newContact.familyName = familyName.text;
+                      newContact.phones = [Item(label: "home", value: phoneNumber.text)];
+                      print(newContact.phones?[0].label);
                       ContactsService.addContact(newContact);
                       addOne(newContact);
                       Navigator.pop(context);
                       },
-                    child: Text('완료')),
+                    child: Text('OK')),
                 TextButton(
                   onPressed: (){Navigator.pop(context);},
-                  child: Text('취소'),
+                  child: Text('Cancel'),
                 ),
               ],
             ),
