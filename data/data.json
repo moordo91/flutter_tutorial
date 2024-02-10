@@ -1,0 +1,29 @@
+[
+    {
+        "id": 0,
+        "image": "https://github.com/moordo91/flutter_tutorial/blob/main/data/001.png?raw=true",
+        "likes": 5,
+        "date": "July 25",
+        "content": "기니피그. 누리에 있다. 이젠 없다.",
+        "liked": false,
+        "user": "User 1"
+    },
+    {
+        "id": 1,
+        "image": "https://github.com/moordo91/flutter_tutorial/blob/main/data/002.png?raw=true",
+        "likes": 22,
+        "date": "Aug 3",
+        "content": "미나는 청설모와 다람쥐의 차이를 알까?",
+        "liked": false,
+        "user": "User 2"
+    },
+    {
+        "id": 2,
+        "image": "https://github.com/moordo91/flutter_tutorial/blob/main/data/003.png?raw=true",
+        "likes": 10,
+        "date": "Nov 30",
+        "content": "까마귀 똑똑 어쩌면 나보다 😵",
+        "liked": false,
+        "user": "User 3"
+    }
+]
